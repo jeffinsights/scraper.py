@@ -1,40 +1,40 @@
-import requests
-from bs4 import BeautifulSoup
-import pandas as pd
+ 🌐 Web Scraping & Data Cleaning – Portfolio Project
 
-# Usamos un sitio simple con HTML estático
-url = "https://www.x-rates.com/table/?from=USD&amount=1"
+# 📁 Project Overview
+This project demonstrates how to collect data from the web using Python and BeautifulSoup, clean and structure the data using pandas, and prepare it for analysis.
 
-# Hacemos la solicitud HTTP
-response = requests.get(url)
+The goal was to extract and organize data from a live website and turn it into a clean dataset ready for further analysis or visualization.
 
-# Parseamos el HTML
-soup = BeautifulSoup(response.text, 'html.parser')
+# 🧪 Technologies Used
+- **Python**
+- **requests** for HTTP requests
+- **BeautifulSoup (bs4)** for HTML parsing
+- **pandas** for data manipulation and cleaning
 
-# Buscamos la tabla principal
-table = soup.find('table', class_='tablesorter ratesTable')
+ 📑 Process
+1. Collected HTML content from a website using `requests.get()`
+2. Parsed the HTML with BeautifulSoup to extract specific elements (e.g., product names, prices, etc.)
+3. Cleaned and structured the data using `pandas`
+4. Converted messy strings to numeric types, removed unwanted characters, handled missing values
+5. Exported the cleaned dataset to CSV
 
-# Extraemos filas
-rows = table.find_all('tr')[1:]  # ignoramos encabezado
+ 📈 Example Use Case
+Extracted product names and prices from an e-commerce site and created a DataFrame ready for:
+- Price comparison
+- Category analysis
+- Trend tracking
 
-# Guardamos los datos
-data = []
-for row in rows:
-    cols = row.find_all('td')
-    if len(cols) >= 2:
-        currency = cols[0].text.strip()
-        rate = cols[1].text.strip()
-        data.append({'Currency': currency, 'Rate': rate})
+ 🔍 Skills Practiced
+- HTML structure navigation
+- Data extraction with `.find()` and `.find_all()`
+- String cleaning with `.str.replace()`, `.strip()`, and `astype()`
+- Dataset formatting and export
 
-# Creamos el DataFrame
-df = pd.DataFrame(data)
+ 📂 Files
+- `scraper.py`: Script used to scrape and clean the data
+- `scraped_data.csv`: Output dataset after cleaning
+- `README.md`: Project documentation
 
-# Limpiamos datos (convertimos tasas a números)
-df['Rate'] = df['Rate'].str.replace(',', '').astype(float)
+---
 
-# Guardamos en CSV
-df.to_csv('exchange_rates.csv', index=False)
-
-print(df.head())
-
-# scraper.py
+*This project simulates a real-world workflow where data is not available in clean format and must be scraped, parsed, and cleaned before any meaningful analysis can be performed.*
